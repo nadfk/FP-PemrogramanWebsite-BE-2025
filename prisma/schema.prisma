@@ -82,3 +82,11 @@ model LikedGames {
 
   @@unique([user_id, game_id])
 }
+
+model Unjumble {
+  id                String @id @default(cuid())
+  question          String
+  answer            String
+  wordList          String[]
+  createdAt         DateTime @default(now())
+}
