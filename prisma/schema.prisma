@@ -103,3 +103,11 @@ model Leaderboard {
   @@index([game_id, score])
   @@index([user_id])
 }
+
+model Unjumble {
+  id                String @id @default(cuid())
+  question          String
+  answer            String
+  wordList          String[]
+  createdAt         DateTime @default(now())
+}
