@@ -119,6 +119,49 @@ export class UnjumbleService {
     };
   }
 
+  static async getUnjumbleById(game_id: string, user_id: string) {
+    const game = await prisma.games.findUnique({
+      where: { id: game_id },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        thumbnail_image: true,
+        is_published: true,
+        game_json: true,
+        creator_id: true,
+        game_template: {
+          select: { slug: true },
+        },
+      },
+    });
+
+    if (!game || game.game_template.slug !== UnjumbleService.UNJUMBLE_SLUG)
+      throw new ErrorResponse(StatusCodes.NOT_FOUND, 'Game not found');
+
+    if (game.creator_id !== user_id)
+      throw new ErrorResponse(
+        StatusCodes.FORBIDDEN,
+        'User not allowed to access this data',
+      );
+
+    const unjumbleJson = game.game_json as unknown as IUnjumbleJson | null;
+
+    if (!unjumbleJson)
+      throw new ErrorResponse(StatusCodes.NOT_FOUND, 'Unjumble data not found');
+
+    return {
+      id: game.id,
+      name: game.name,
+      description: game.description,
+      thumbnail_image: game.thumbnail_image,
+      is_published: game.is_published,
+      score_per_sentence: unjumbleJson.score_per_sentence,
+      is_randomized: unjumbleJson.is_randomized,
+      sentences: unjumbleJson.sentences,
+    };
+  }
+
   private static async existGameCheck(game_name?: string, game_id?: string) {
     const where: Record<string, unknown> = {};
     if (game_name) where.name = game_name;

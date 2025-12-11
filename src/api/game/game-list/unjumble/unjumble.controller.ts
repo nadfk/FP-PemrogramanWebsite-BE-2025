@@ -136,6 +136,32 @@ export const UnjumbleController = Router()
       }
     },
   )
+  .get(
+    '/:game_id/edit',
+    validateAuth({}),
+    async (
+      request: AuthedRequest<{ game_id: string }>,
+      response: Response,
+      next: NextFunction,
+    ) => {
+      try {
+        const game = await UnjumbleService.getUnjumbleById(
+          request.params.game_id,
+          request.user!.user_id,
+        );
+
+        const result = new SuccessResponse(
+          StatusCodes.OK,
+          'Get game data for edit successfully',
+          game,
+        );
+
+        return response.status(result.statusCode).json(result.json());
+      } catch (error) {
+        return next(error);
+      }
+    },
+  )
   .delete(
     '/:game_id',
     validateAuth({}),
