@@ -6,16 +6,14 @@ import { QuizController } from './quiz/quiz.controller';
 import { SpeedSortingController } from './speed-sorting/speed-sorting.controller';
 import { TypeSpeedController } from './type-speed/type-speed.controller';
 import { UnjumbleController } from './unjumble/unjumble.controller';
-import unjumbleRouter from './unjumble/unjumble.route';
 
-const GameListRouter = Router();
+const gameListRouter = Router();
 
-GameListRouter.use('/quiz', QuizController);
-GameListRouter.use('/speed-sorting', SpeedSortingController);
-GameListRouter.use('/anagram', AnagramController);
-GameListRouter.use('/pair-or-no-pair', PairOrNoPairController);
-GameListRouter.use('/type-speed', TypeSpeedController);
-GameListRouter.use('/unjumble', UnjumbleController);
-GameListRouter.use('/unjumble-play', unjumbleRouter);
+gameListRouter.use('/quiz', QuizController);
+gameListRouter.use('/speed-sorting', SpeedSortingController);
+gameListRouter.use('/anagram', AnagramController);
+gameListRouter.use('/pair-or-no-pair', PairOrNoPairController);
+gameListRouter.use('/type-speed', TypeSpeedController);
+gameListRouter.use('/unjumble', UnjumbleController);
 
-export default GameListRouter;
+export { gameListRouter };
