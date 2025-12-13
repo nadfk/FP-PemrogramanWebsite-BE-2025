@@ -4,7 +4,7 @@ import path from 'node:path';
 
 import cors from 'cors';
 import dotenv from 'dotenv';
-import express from 'express';
+import express, { type Express } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import AppRouter from './api/router';
@@ -15,7 +15,7 @@ dotenv.config({ quiet: true });
 const uploadPath = path.join(__dirname, '..', 'uploads');
 mkdir(uploadPath, { recursive: true });
 
-const app = express();
+const app: Express = express();
 
 app.use(
   cors({
